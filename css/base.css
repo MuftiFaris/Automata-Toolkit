@@ -1,0 +1,114 @@
+/* ═══════════════════════════════════════
+   base.css — Variables, Reset, Layout
+════════════════════════════════════════ */
+
+:root {
+  --bg:           #0d0f14;
+  --bg2:          #13161d;
+  --bg3:          #1a1e28;
+  --bg4:          #222736;
+  --border:       #2a3045;
+  --border-hover: #3a4260;
+  --accent:       #5b8fff;
+  --accent2:      #7c5cff;
+  --green:        #3ecf8e;
+  --red:          #ff5c5c;
+  --yellow:       #ffc35b;
+  --teal:         #3ecfcf;
+  --text:         #e2e8f8;
+  --muted:        #6b7899;
+
+  --state-normal:       #1e2535;
+  --state-accept:       #3ecf8e;
+  --state-active:       #5b8fff;
+  --state-active-accept:#7c5cff;
+  --state-dead:         #ff5c5c;
+
+  --font-ui:   'Syne', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --radius:    10px;
+  --radius-sm: 6px;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-ui);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg2); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--border-hover); }
+
+/* ── Header ── */
+header {
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+header h1 {
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+header h1 .accent { color: var(--accent); }
+
+/* ── Tab panels layout ── */
+.tab-panel {
+  display: none;
+  padding: 20px 24px;
+  gap: 20px;
+  min-height: calc(100vh - 110px);
+}
+
+.tab-panel.active { display: flex; }
+
+.panel-left {
+  width: 320px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.panel-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+}
+
+.two-col {
+  display: flex;
+  gap: 16px;
+}
+
+.two-col > * { flex: 1; min-width: 0; }
+
+/* ── Empty / placeholder messages ── */
+.empty-msg {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.svg-placeholder {
+  fill: var(--muted);
+  font-family: var(--font-ui);
+  font-size: 13px;
+}

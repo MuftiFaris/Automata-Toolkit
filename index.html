@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Automata Theory Toolkit</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/graph.css">
+  <link rel="stylesheet" href="css/tabs.css">
+</head>
+<body>
+
+  <!-- ── Header ── -->
+  <header>
+    <h1>⚙ <span class="accent">Automata</span> Toolkit</h1>
+    <span class="badge">v2.0 — Graph Visualizer</span>
+    <span class="badge">Teori Automata</span>
+  </header>
+
+  <!-- ── Navigation Tabs ── -->
+  <nav class="tabs">
+    <button class="tab-btn active" onclick="showTab('dfa', this)">🖥 DFA Simulator</button>
+    <button class="tab-btn" onclick="showTab('regex', this)">🔤 Regex → NFA</button>
+    <button class="tab-btn" onclick="showTab('min', this)">⚡ DFA Minimizer</button>
+    <button class="tab-btn" onclick="showTab('equiv', this)">🔍 Equivalence</button>
+  </nav>
+
+  <!-- ════════════════════════════════════
+       TAB 1 — DFA SIMULATOR
+  ════════════════════════════════════ -->
+  <div id="tab-dfa" class="tab-panel active">
+    <div class="panel-left">
+
+      <div class="card">
+        <div class="card-title">Definisi DFA</div>
+        <div class="form-row"><label>States (spasi)</label><input type="text" id="d-states" value="q0 q1 q2"></div>
+        <div class="form-row"><label>Alphabet (spasi)</label><input type="text" id="d-alpha" value="0 1"></div>
+        <div class="form-row"><label>Start State</label><input type="text" id="d-start" value="q0"></div>
+        <div class="form-row"><label>Accept States</label><input type="text" id="d-accept" value="q2"></div>
+        <div class="form-row">
+          <label>Transitions (from sym to, per baris)</label>
+          <textarea id="d-trans">q0 0 q1
+q0 1 q0
+q1 0 q2
+q1 1 q0
+q2 0 q2
+q2 1 q2</textarea>
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-primary btn-sm" onclick="buildDFA()">⚙ Build Graf</button>
+          <button class="btn btn-secondary btn-sm" onclick="loadExample('nonconsec')">Contoh A,B,C</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Test String</div>
+        <div class="form-row">
+          <label>Input String</label>
+          <input type="text" id="d-teststr" value="0010" placeholder="ketik string...">
+        </div>
+        <div id="d-sim-display" class="sim-string-display" style="display:none"></div>
+        <div class="btn-row">
+          <button class="btn btn-green btn-sm" onclick="startSimAnim()">▶ Animasi</button>
+          <button class="btn btn-secondary btn-sm" onclick="simInstant()">⚡ Langsung</button>
+          <button class="btn btn-secondary btn-sm" onclick="stepSim()">⏭ Step</button>
+          <button class="btn btn-secondary btn-sm" onclick="resetSim()">↺ Reset</button>
+        </div>
+        <div class="stepper-info">
+          <span class="step-indicator" id="d-step-ind">—</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Hasil Simulasi</div>
+        <div id="d-result" class="trace-box">Belum ada simulasi.</div>
+      </div>
+
+    </div>
+
+    <div class="panel-right">
+
+      <div class="card card-flex">
+        <div class="card-title card-title-row">
+          Graf DFA
+          <div class="legend">
+            <span><span class="legend-dot dot-normal"></span>Normal</span>
+            <span><span class="legend-dot dot-accept"></span>Accept</span>
+            <span><span class="legend-dot dot-active"></span>Aktif</span>
+            <span><span class="legend-dot dot-dead"></span>Dead</span>
+          </div>
+        </div>
+        <div class="graph-wrap" id="dfa-graph-wrap">
+          <svg id="dfa-svg" xmlns="http://www.w3.org/2000/svg">
+            <text class="svg-placeholder" x="50%" y="50%" text-anchor="middle" dominant-baseline="central">
+              Build DFA terlebih dahulu →
+            </text>
+          </svg>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Tabel Transisi</div>
+        <div id="dfa-table-wrap" class="table-scroll">
+          <div class="empty-msg">Belum ada DFA.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════
+       TAB 2 — REGEX → NFA
+  ════════════════════════════════════ -->
+  <div id="tab-regex" class="tab-panel">
+    <div class="panel-left">
+
+      <div class="card">
+        <div class="card-title">Regular Expression</div>
+        <div class="op-pills">
+          <span class="op-pill">|&nbsp;&nbsp;union</span>
+          <span class="op-pill">*&nbsp;&nbsp;Kleene</span>
+          <span class="op-pill">+&nbsp;&nbsp;plus</span>
+          <span class="op-pill">?&nbsp;&nbsp;optional</span>
+          <span class="op-pill">( )&nbsp;grup</span>
+        </div>
+        <div class="form-row">
+          <label>Masukkan Regex</label>
+          <input type="text" id="r-regex" value="(a|b)*abb">
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-primary btn-sm" onclick="buildNFAfromRegex()">⚙ Build NFA</button>
+        </div>
+        <div class="preset-row">
+          <button class="btn btn-secondary btn-sm" onclick="setRegex('a*')">a*</button>
+          <button class="btn btn-secondary btn-sm" onclick="setRegex('(a|b)')">(a|b)</button>
+          <button class="btn btn-secondary btn-sm" onclick="setRegex('(a|b)*abb')">(a|b)*abb</button>
+          <button class="btn btn-secondary btn-sm" onclick="setRegex('ab+c?')">ab+c?</button>
+        </div>
+      </div>
+
+      <div class="card" id="r-info-card" style="display:none">
+        <div class="card-title">Info NFA</div>
+        <div id="r-info"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Test String</div>
+        <div class="form-row">
+          <label>String</label>
+          <input type="text" id="r-teststr" value="aabb">
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-green btn-sm" onclick="testNFA()">▶ Test NFA</button>
+          <button class="btn btn-secondary btn-sm" onclick="convertNFAtoDFA()">🔄 Lihat DFA</button>
+        </div>
+        <div id="r-result" class="trace-box" style="margin-top:10px">—</div>
+      </div>
+
+    </div>
+
+    <div class="panel-right">
+
+      <div class="card card-flex">
+        <div class="card-title" id="r-graph-title">Graf NFA (Thompson's Construction)</div>
+        <div class="graph-wrap" id="nfa-graph-wrap">
+          <svg id="nfa-svg" xmlns="http://www.w3.org/2000/svg">
+            <text class="svg-placeholder" x="50%" y="50%" text-anchor="middle" dominant-baseline="central">
+              Build NFA dari regex →
+            </text>
+          </svg>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Tabel Transisi NFA</div>
+        <div id="nfa-table-wrap" class="table-scroll">
+          <div class="empty-msg">—</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════
+       TAB 3 — DFA MINIMIZER
+  ════════════════════════════════════ -->
+  <div id="tab-min" class="tab-panel">
+    <div class="panel-left">
+
+      <div class="card">
+        <div class="card-title">Input DFA</div>
+        <div class="form-row"><label>States</label><input type="text" id="m-states" value="q0 q1 q2 q3 q4"></div>
+        <div class="form-row"><label>Alphabet</label><input type="text" id="m-alpha" value="0 1"></div>
+        <div class="form-row"><label>Start State</label><input type="text" id="m-start" value="q0"></div>
+        <div class="form-row"><label>Accept States</label><input type="text" id="m-accept" value="q2 q4"></div>
+        <div class="form-row">
+          <label>Transitions</label>
+          <textarea id="m-trans">q0 0 q1
+q0 1 q3
+q1 0 q2
+q1 1 q4
+q2 0 q2
+q2 1 q2
+q3 0 q4
+q3 1 q1
+q4 0 q4
+q4 1 q4</textarea>
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-primary" onclick="minimizeDFA()">⚡ Minimize</button>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="panel-right">
+
+      <div class="two-col">
+        <div class="card card-flex">
+          <div class="card-title">Graf DFA Original</div>
+          <div class="graph-wrap" id="min-orig-wrap">
+            <svg id="min-orig-svg" xmlns="http://www.w3.org/2000/svg">
+              <text class="svg-placeholder" x="50%" y="50%" text-anchor="middle" dominant-baseline="central">—</text>
+            </svg>
+          </div>
+        </div>
+        <div class="card card-flex">
+          <div class="card-title">Graf DFA Minimized</div>
+          <div class="graph-wrap" id="min-new-wrap">
+            <svg id="min-new-svg" xmlns="http://www.w3.org/2000/svg">
+              <text class="svg-placeholder" x="50%" y="50%" text-anchor="middle" dominant-baseline="central">—</text>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Hasil Minimisasi</div>
+        <div id="min-result"><div class="empty-msg">Belum ada hasil.</div></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════
+       TAB 4 — EQUIVALENCE
+  ════════════════════════════════════ -->
+  <div id="tab-equiv" class="tab-panel">
+    <div class="panel-left">
+
+      <div class="card">
+        <div class="card-title">DFA 1</div>
+        <div class="form-row"><label>States</label><input type="text" id="e1-states" value="q0 q1 q2"></div>
+        <div class="form-row"><label>Alphabet</label><input type="text" id="e1-alpha" value="0 1"></div>
+        <div class="form-row"><label>Start</label><input type="text" id="e1-start" value="q0"></div>
+        <div class="form-row"><label>Accept</label><input type="text" id="e1-accept" value="q2"></div>
+        <div class="form-row">
+          <label>Transitions</label>
+          <textarea id="e1-trans">q0 0 q1
+q0 1 q0
+q1 0 q2
+q1 1 q0
+q2 0 q2
+q2 1 q2</textarea>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">DFA 2</div>
+        <div class="form-row"><label>States</label><input type="text" id="e2-states" value="p0 p1 p2 p3"></div>
+        <div class="form-row"><label>Alphabet</label><input type="text" id="e2-alpha" value="0 1"></div>
+        <div class="form-row"><label>Start</label><input type="text" id="e2-start" value="p0"></div>
+        <div class="form-row"><label>Accept</label><input type="text" id="e2-accept" value="p2 p3"></div>
+        <div class="form-row">
+          <label>Transitions</label>
+          <textarea id="e2-trans">p0 0 p1
+p0 1 p0
+p1 0 p2
+p1 1 p0
+p2 0 p3
+p2 1 p2
+p3 0 p3
+p3 1 p3</textarea>
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-primary" onclick="checkEquivalence()">🔍 Check Equivalence</button>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="panel-right">
+
+      <div class="two-col">
+        <div class="card card-flex">
+          <div class="card-title">Graf DFA 1</div>
+          <div class="graph-wrap" id="eq1-wrap">
+            <svg id="eq1-svg" xmlns="http://www.w3.org/2000/svg">
+              <text class="svg-placeholder" x="50%" y="50%" text-anchor="middle" dominant-baseline="central">—</text>
+            </svg>
+          </div>
+        </div>
+        <div class="card card-flex">
+          <div class="card-title">Graf DFA 2</div>
+          <div class="graph-wrap" id="eq2-wrap">
+            <svg id="eq2-svg" xmlns="http://www.w3.org/2000/svg">
+              <text class="svg-placeholder" x="50%" y="50%" text-anchor="middle" dominant-baseline="central">—</text>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Hasil Equivalence Check</div>
+        <div id="equiv-result"><div class="empty-msg">Belum di-check.</div></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Product Construction Table</div>
+        <div id="product-table-wrap" class="table-scroll">
+          <div class="empty-msg">—</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── Scripts (load order matters) ── -->
+  <script src="js/dfa.js"></script>
+  <script src="js/nfa.js"></script>
+  <script src="js/regex.js"></script>
+  <script src="js/minimizer.js"></script>
+  <script src="js/equivalence.js"></script>
+  <script src="js/graph.js"></script>
+  <script src="js/table.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/main.js"></script>
+
+</body>
+</html>
