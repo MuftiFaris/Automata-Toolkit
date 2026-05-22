@@ -15,15 +15,15 @@ automata_web/
 │   ├── graph.css       # SVG canvas & state node styling
 │   └── tabs.css        # Tab navigation
 └── js/
-    ├── dfa.js          # [Anggota A] Class DFA
-    ├── nfa.js          # [Anggota B] Class NFA + epsilon-closure
-    ├── regex.js        # [Anggota B] Thompson's Construction
-    ├── minimizer.js    # [Anggota C] Partition Refinement
-    ├── equivalence.js  # [Anggota C] Product Construction
-    ├── graph.js        # [Anggota D] SVG drawing engine
-    ├── table.js        # [Anggota D] Table & result renderers
-    ├── ui.js           # [Anggota D] Tab switch, form parse, helpers
-    └── main.js         # [Anggota D] App controller & event handlers
+    ├── dfa.js          # Class DFA
+    ├── nfa.js          # Class NFA + epsilon-closure
+    ├── regex.js        # Thompson's Construction
+    ├── minimizer.js    # Partition Refinement
+    ├── equivalence.js  # Product Construction
+    ├── graph.js        # SVG drawing engine
+    ├── table.js        # Table & result renderers
+    ├── ui.js           # Tab switch, form parse, helpers
+    └── main.js         # App controller & event handlers
 ```
 
 ## 🛠 Aturan Pengembangan (Repository Rules)
