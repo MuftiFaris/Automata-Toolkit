@@ -1,19 +1,11 @@
-/**
- * js/main.js
- * Application Controller — event handlers for all 4 tabs
- * Anggota D
- */
-
-// ── Global State ─────────────────────────────────────────────
+// Global State
 window._currentDFA  = null;   // Tab 1
 window._currentNFA  = null;   // Tab 2
 window._simTrace    = [];
 window._simStep     = -1;
 window._simInterval = null;
 
-// ════════════════════════════════════════
 // TAB 1 — DFA SIMULATOR
-// ════════════════════════════════════════
 
 function buildDFA() {
   const { dfa, errors } = buildDFAFromForm('d');
@@ -34,7 +26,7 @@ function buildDFA() {
   showSuccess('d-result', `DFA berhasil dibuat — ${dfa.states.size} states, ${dfa.alphabet.size} simbol.`);
 }
 
-// ── Simulation ───────────────────────────────────────────────
+// Simulation
 
 function resetSim() {
   if (window._simInterval) {
@@ -162,7 +154,7 @@ function _runSimStep(str, accepted) {
   }
 }
 
-// ── Example presets ──────────────────────────────────────────
+// Example presets
 
 function loadExample(name) {
   if (name === 'nonconsec') {
@@ -176,9 +168,7 @@ function loadExample(name) {
   }
 }
 
-// ════════════════════════════════════════
 // TAB 2 — REGEX → NFA
-// ════════════════════════════════════════
 
 function setRegex(rx) {
   document.getElementById('r-regex').value = rx;
@@ -242,9 +232,7 @@ function convertNFAtoDFA() {
   showSuccess('r-result', `Konversi selesai — DFA: ${dfa.states.size} states.`);
 }
 
-// ════════════════════════════════════════
 // TAB 3 — DFA MINIMIZER
-// ════════════════════════════════════════
 
 function minimizeDFA() {
   const { dfa, errors } = buildDFAFromForm('m');
@@ -264,9 +252,7 @@ function minimizeDFA() {
   renderMinResult('min-result', { eqClasses, history, removed }, dfa, minDFA);
 }
 
-// ════════════════════════════════════════
 // TAB 4 — EQUIVALENCE CHECKER
-// ════════════════════════════════════════
 
 function checkEquivalence() {
   const { dfa: dfa1, errors: e1 } = buildDFAFromForm('e1');
@@ -286,9 +272,7 @@ function checkEquivalence() {
   renderEquivResult('equiv-result', 'product-table-wrap', result, alphabet);
 }
 
-// ════════════════════════════════════════
 // INIT
-// ════════════════════════════════════════
 
 window.addEventListener('load', () => {
   buildDFA();

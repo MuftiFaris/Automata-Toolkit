@@ -1,9 +1,3 @@
-/**
- * js/dfa.js
- * DFA Class — core automata logic
- * Anggota A
- */
-
 class DFA {
     /**
      * @param {string[]} states
