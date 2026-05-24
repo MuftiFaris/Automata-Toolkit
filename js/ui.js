@@ -13,7 +13,7 @@ function showTab(name, btnEl) {
   document.getElementById('tab-' + name).classList.add('active');
   btnEl.classList.add('active');
 
-  // Redraw graphs after DOM reflow
+  // redraw graph post reflow
   setTimeout(() => _redrawOnTabSwitch(name), 60);
 }
 
@@ -26,9 +26,8 @@ function _redrawOnTabSwitch(name) {
   }
 }
 
-// Form parsing helpers
-
-/** Split a whitespace-separated string into tokens */
+// form parse
+// split ws tokens
 function parseList(str) {
   return str.trim().split(/\s+/).filter(Boolean);
 }

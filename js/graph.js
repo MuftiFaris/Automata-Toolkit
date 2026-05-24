@@ -1,14 +1,3 @@
-/*
- * Draws DFA and NFA as interactive SVG diagrams:
- *   - Circular state layout
- *   - Self-loops, curved bidirectional edges
- *   - Active state/edge highlighting
- *   - Double-circle for accept states
- *   - Start arrow
- */
-
-// Layout
-
 /**
  * Place n states in a circle inside a W×H viewport.
  * Start state is pinned to the left (angle = π).
@@ -33,7 +22,7 @@ function layoutStates(states, W, H) {
     return pos;
 }
 
-// Arrow marker definitions
+// arrow markers
 
 function _markerDefs(id, color) {
     return `<marker id="${id}" viewBox="0 0 10 10" refX="9" refY="5"
@@ -62,14 +51,14 @@ function drawDFAGraph(svgId, dfa, activeState = null, activeEdge = null) {
 
     const R = 26;
 
-    // Sort states: start first, then alphabetical
+    // start 1st, then az
     const stateArr = [...dfa.states]
         .filter(s => s !== '__dead__')
         .sort((a, b) => a === dfa.start ? -1 : b === dfa.start ? 1 : a.localeCompare(b));
 
     const pos = layoutStates(stateArr, W, H);
 
-    // Group edges by (from→to) for label merging
+    // group edges for label
     const edgeMap = {};
     for (const s of stateArr) {
         for (const sym of [...dfa.alphabet].sort()) {
@@ -87,7 +76,7 @@ function drawDFAGraph(svgId, dfa, activeState = null, activeEdge = null) {
     html += _markerDefs('ar-start', '#6b7899');
     html += '</defs>';
 
-    // Draw edges
+    // draw edges
     for (const [key, syms] of Object.entries(edgeMap)) {
         const [from, to] = key.split('->');
         if (!pos[from] || !pos[to]) continue;
@@ -100,7 +89,7 @@ function drawDFAGraph(svgId, dfa, activeState = null, activeEdge = null) {
         const sw = isActive ? 2.5 : 1.8;
 
         if (from === to) {
-            // Self-loop
+            // self loop
             const { x, y } = pos[from];
             html += `<path d="M${x - 12},${y - R + 4} C${x - 32},${y - R - 42} ${x + 32},${y - R - 42} ${x + 12},${y - R + 4}"
         fill="none" stroke="${edgeColor}" stroke-width="${sw}"
@@ -120,7 +109,7 @@ function drawDFAGraph(svgId, dfa, activeState = null, activeEdge = null) {
             let pathD, mlx, mly;
 
             if (hasReverse) {
-                // Curved to avoid overlapping reverse edge
+                // curve avoid overlap
                 const ox = -ny * 30, oy = nx * 30;
                 const mx = (ex1 + ex2) / 2 + ox;
                 const my = (ey1 + ey2) / 2 + oy;
@@ -139,7 +128,7 @@ function drawDFAGraph(svgId, dfa, activeState = null, activeEdge = null) {
         }
     }
 
-    // Start arrow
+    // start arrow
     if (pos[dfa.start]) {
         const { x, y } = pos[dfa.start];
         html += `<line x1="${x - R - 32}" y1="${y}" x2="${x - R - 2}" y2="${y}"
@@ -148,7 +137,7 @@ function drawDFAGraph(svgId, dfa, activeState = null, activeEdge = null) {
       fill="#6b7899" font-size="11" font-family="Syne,sans-serif">Start</text>`;
     }
 
-    // Draw state nodes
+    // draw nodes
     for (const s of stateArr) {
         const { x, y } = pos[s];
         const isActive = s === activeState;
@@ -169,7 +158,7 @@ function drawDFAGraph(svgId, dfa, activeState = null, activeEdge = null) {
         html += `<circle cx="${x}" cy="${y}" r="${R}"
       fill="${fill}" stroke="${stroke}" stroke-width="${sw}"/>`;
 
-        // Double ring for accept state
+        // accept double ring
         if (isAccept) {
             html += `<circle cx="${x}" cy="${y}" r="${R - 5}"
         fill="none" stroke="${stroke}" stroke-width="1.4" opacity="0.5"/>`;
@@ -207,7 +196,7 @@ function drawNFAGraph(svgId, nfa) {
     );
     const pos = layoutStates(stateArr, W, H);
 
-    // Group edges: {from->to: [sym1, sym2, ...]}
+    // group nfa edges
     const edgeMap = {};
     for (const key of Object.keys(nfa.trans)) {
         const commaIdx = key.indexOf(',');

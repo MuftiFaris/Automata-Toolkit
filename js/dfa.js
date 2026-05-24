@@ -14,7 +14,7 @@ class DFA {
         this.trans = trans;
     }
 
-    /** Single transition step */
+    // one step
     step(state, sym) {
         return this.trans[state + ',' + sym] || null;
     }
@@ -42,7 +42,7 @@ class DFA {
         };
     }
 
-    /** Build transition table as nested object: {state: {sym: next}} */
+    // build trans table obj
     getTable() {
         const syms = [...this.alphabet].sort();
         const rows = {};
@@ -53,7 +53,7 @@ class DFA {
         return { rows, syms };
     }
 
-    /** Returns a new complete DFA with a dead state added for missing transitions */
+    // clone dfa + dead state
     addDeadState() {
         const DEAD = '__dead__';
         const newTrans = { ...this.trans };
@@ -75,7 +75,7 @@ class DFA {
         return this;
     }
 
-    /** BFS from start state — returns Set of reachable states */
+    // bfs reachable states
     reachable() {
         const visited = new Set();
         const queue = [this.start];

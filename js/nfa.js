@@ -16,7 +16,7 @@ class NFA {
         this.trans = trans;
     }
 
-    /** move(stateSet, sym) — all states reachable from stateSet via sym (no epsilon) */
+    // jump states via sym
     move(stateSet, sym) {
         const result = new Set();
         for (const s of stateSet) {
@@ -25,7 +25,7 @@ class NFA {
         return result;
     }
 
-    /** epsilon-closure — all states reachable via zero or more ε-transitions */
+    // eps closure
     epsClosure(states) {
         const closure = new Set(states);
         const stack = [...states];
@@ -38,10 +38,7 @@ class NFA {
         return closure;
     }
 
-    /**
-     * Simulate NFA on input string using subset simulation.
-     * @returns {{ accepted: boolean, trace: Object[] }}
-     */
+    // run subset sim
     simulate(str) {
         let cur = this.epsClosure(new Set([this.start]));
         const trace = [{ step: 0, states: new Set(cur) }];
@@ -56,10 +53,7 @@ class NFA {
         return { accepted, trace };
     }
 
-    /**
-     * Convert NFA → DFA using Subset Construction.
-     * @returns {DFA}
-     */
+    // NFA -> DFA subset
     toDFA() {
         const setKey = s => [...s].sort().join('|');
         const dfaTrans = {};
@@ -90,7 +84,7 @@ class NFA {
             }
         }
 
-        // Determine DFA accept states
+        // set accept states
         const dfaAccept = new Set();
         for (const [k, name] of Object.entries(dfaStates)) {
             if (k.split('|').some(s => this.accept.has(s))) dfaAccept.add(name);
@@ -105,10 +99,10 @@ class NFA {
         );
     }
 
-    /** Build transition table for display (includes ε column) */
+    // UI trans table
     getTable() {
         const syms = [...this.alphabet].sort().concat([EPS]);
-        // Sort states: Start state first, then others alphabetically
+        // start state 1st
         const others = [...this.states].filter(s => s !== this.start).sort();
         const states = [this.start, ...others];
         const rows = {};
