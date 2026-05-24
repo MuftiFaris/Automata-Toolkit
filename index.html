@@ -13,14 +13,14 @@
 </head>
 <body>
 
-  <!-- ── Header ── -->
+  <!-- header -->
   <header>
     <h1>⚙ <span class="accent">Automata</span> Toolkit</h1>
     <span class="badge">v2.0 — Graph Visualizer</span>
     <span class="badge">Teori Automata</span>
   </header>
 
-  <!-- ── Navigation Tabs ── -->
+  <!-- tabs -->
   <nav class="tabs">
     <button class="tab-btn active" onclick="showTab('dfa', this)">🖥 DFA Simulator</button>
     <button class="tab-btn" onclick="showTab('regex', this)">🔤 Regex → NFA</button>
@@ -28,9 +28,7 @@
     <button class="tab-btn" onclick="showTab('equiv', this)">🔍 Equivalence</button>
   </nav>
 
-  <!-- ════════════════════════════════════
-       TAB 1 — DFA SIMULATOR
-  ════════════════════════════════════ -->
+  <!-- tab dfa -->
   <div id="tab-dfa" class="tab-panel active">
     <div class="panel-left">
 
@@ -111,9 +109,7 @@ q2 1 q2</textarea>
     </div>
   </div>
 
-  <!-- ════════════════════════════════════
-       TAB 2 — REGEX → NFA
-  ════════════════════════════════════ -->
+  <!-- tab regex -->
   <div id="tab-regex" class="tab-panel">
     <div class="panel-left">
 
@@ -184,9 +180,7 @@ q2 1 q2</textarea>
     </div>
   </div>
 
-  <!-- ════════════════════════════════════
-       TAB 3 — DFA MINIMIZER
-  ════════════════════════════════════ -->
+  <!-- tab minimize -->
   <div id="tab-min" class="tab-panel">
     <div class="panel-left">
 
@@ -245,9 +239,7 @@ q4 1 q4</textarea>
     </div>
   </div>
 
-  <!-- ════════════════════════════════════
-       TAB 4 — EQUIVALENCE
-  ════════════════════════════════════ -->
+  <!-- tab equiv -->
   <div id="tab-equiv" class="tab-panel">
     <div class="panel-left">
 
@@ -328,7 +320,7 @@ p3 1 p3</textarea>
     </div>
   </div>
 
-  <!-- ── Scripts (load order matters) ── -->
+  <!-- js scripts -->
   <script src="js/dfa.js"></script>
   <script src="js/nfa.js"></script>
   <script src="js/regex.js"></script>

@@ -1,19 +1,11 @@
-/**
- * js/main.js
- * Application Controller — event handlers for all 4 tabs
- * Anggota D
- */
-
-// ── Global State ─────────────────────────────────────────────
+// global state
 window._currentDFA  = null;   // Tab 1
 window._currentNFA  = null;   // Tab 2
 window._simTrace    = [];
 window._simStep     = -1;
 window._simInterval = null;
 
-// ════════════════════════════════════════
-// TAB 1 — DFA SIMULATOR
-// ════════════════════════════════════════
+// tab 1 dfa sim
 
 function buildDFA() {
   const { dfa, errors } = buildDFAFromForm('d');
@@ -34,7 +26,7 @@ function buildDFA() {
   showSuccess('d-result', `DFA berhasil dibuat — ${dfa.states.size} states, ${dfa.alphabet.size} simbol.`);
 }
 
-// ── Simulation ───────────────────────────────────────────────
+// sim
 
 function resetSim() {
   if (window._simInterval) {
@@ -75,7 +67,7 @@ function startSimAnim() {
   window._simTrace = trace;
   window._simStep  = 0;
 
-  // Setup character display
+  // setup char UI
   const disp = document.getElementById('d-sim-display');
   disp.style.display = 'block';
   disp.innerHTML = str.length
@@ -102,7 +94,7 @@ function stepSim() {
 
   const str = document.getElementById('d-teststr').value;
 
-  // Initialise trace on first step call
+  // init trace 1st step
   if (!window._simTrace.length) {
     const { accepted, trace } = window._currentDFA.simulate(str);
     window._simTrace = trace;
@@ -136,14 +128,14 @@ function _runSimStep(str, accepted) {
   const t = trace[step];
   document.getElementById('d-step-ind').textContent = `Step ${t.step} / ${trace.length - 1}`;
 
-  // Highlight current character
+  // hl cur char
   str.split('').forEach((_, i) => {
     const el = document.getElementById('sc-' + i);
     if (!el) return;
     el.className = 'sim-char' + (i < t.step ? ' done' : i === t.step - 1 ? ' current' : '');
   });
 
-  // Update graph
+  // update graph
   if (t.step > 0) {
     const prev      = trace[t.step - 1];
     const curState  = t.next !== 'DEAD' ? t.next : null;
@@ -153,7 +145,7 @@ function _runSimStep(str, accepted) {
     drawDFAGraph('dfa-svg', window._currentDFA, window._currentDFA.start);
   }
 
-  // Show final result badge on last step
+  // show final badge
   if (step === trace.length - 1) {
     const resultEl  = document.getElementById('d-result');
     const cls       = accepted ? 'result-accept' : 'result-reject';
@@ -162,7 +154,7 @@ function _runSimStep(str, accepted) {
   }
 }
 
-// ── Example presets ──────────────────────────────────────────
+// examples
 
 function loadExample(name) {
   if (name === 'nonconsec') {
@@ -176,9 +168,7 @@ function loadExample(name) {
   }
 }
 
-// ════════════════════════════════════════
-// TAB 2 — REGEX → NFA
-// ════════════════════════════════════════
+// tab 2 regex -> nfa
 
 function setRegex(rx) {
   document.getElementById('r-regex').value = rx;
@@ -205,7 +195,7 @@ function buildNFAfromRegex() {
   document.getElementById('r-graph-title').textContent =
     `Graf NFA — "${rx}" (Thompson's Construction)`;
 
-  // Info panel
+  // info ui
   document.getElementById('r-info').innerHTML = buildInfoRows({
     'Regex'    : rx,
     'States'   : nfa.states.size,
@@ -242,9 +232,7 @@ function convertNFAtoDFA() {
   showSuccess('r-result', `Konversi selesai — DFA: ${dfa.states.size} states.`);
 }
 
-// ════════════════════════════════════════
-// TAB 3 — DFA MINIMIZER
-// ════════════════════════════════════════
+// tab 3 min dfa
 
 function minimizeDFA() {
   const { dfa, errors } = buildDFAFromForm('m');
@@ -264,9 +252,7 @@ function minimizeDFA() {
   renderMinResult('min-result', { eqClasses, history, removed }, dfa, minDFA);
 }
 
-// ════════════════════════════════════════
-// TAB 4 — EQUIVALENCE CHECKER
-// ════════════════════════════════════════
+// tab 4 equiv
 
 function checkEquivalence() {
   const { dfa: dfa1, errors: e1 } = buildDFAFromForm('e1');
@@ -286,9 +272,7 @@ function checkEquivalence() {
   renderEquivResult('equiv-result', 'product-table-wrap', result, alphabet);
 }
 
-// ════════════════════════════════════════
-// INIT
-// ════════════════════════════════════════
+// init
 
 window.addEventListener('load', () => {
   buildDFA();

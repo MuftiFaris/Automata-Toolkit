@@ -1,10 +1,4 @@
-/**
- * js/ui.js
- * UI Helpers — tab switching, form parsing, shared utilities
- * Anggota D
- */
-
-// ── Tab switching ────────────────────────────────────────────
+// Tab switching
 
 /**
  * Show the selected tab panel and update active button.
@@ -19,7 +13,7 @@ function showTab(name, btnEl) {
   document.getElementById('tab-' + name).classList.add('active');
   btnEl.classList.add('active');
 
-  // Redraw graphs after DOM reflow
+  // redraw graph post reflow
   setTimeout(() => _redrawOnTabSwitch(name), 60);
 }
 
@@ -32,9 +26,8 @@ function _redrawOnTabSwitch(name) {
   }
 }
 
-// ── Form parsing helpers ─────────────────────────────────────
-
-/** Split a whitespace-separated string into tokens */
+// form parse
+// split ws tokens
 function parseList(str) {
   return str.trim().split(/\s+/).filter(Boolean);
 }
@@ -121,7 +114,7 @@ function buildDFAFromForm(pfx) {
   };
 }
 
-// ── Error display ────────────────────────────────────────────
+// Error display
 
 /**
  * Show error messages inside a container element.
@@ -147,7 +140,7 @@ function showSuccess(containerId, msg) {
     `<span style="color:var(--green);font-size:12px">✓ ${msg}</span>`;
 }
 
-// ── Info rows helper ─────────────────────────────────────────
+// Info rows helper
 
 /**
  * Build a set of info-row divs for NFA/DFA summary.

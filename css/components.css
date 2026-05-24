@@ -1,9 +1,6 @@
-/* ═══════════════════════════════════════
-   components.css — Cards, Buttons, Forms,
-                    Tables, Badges, Trace
-════════════════════════════════════════ */
+/* components.css ui elements */
 
-/* ── Card ── */
+/* card */
 .card {
   background: var(--bg2);
   border: 1px solid var(--border);
@@ -32,7 +29,7 @@
   align-items: center;
 }
 
-/* ── Badge ── */
+/* badge */
 .badge {
   font-size: 11px;
   font-family: var(--font-mono);
@@ -43,7 +40,7 @@
   color: var(--muted);
 }
 
-/* ── Form Elements ── */
+/* form */
 label {
   font-size: 12px;
   color: var(--muted);
@@ -79,7 +76,7 @@ textarea {
 
 .form-row { margin-bottom: 10px; }
 
-/* ── Buttons ── */
+/* btn */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -137,7 +134,7 @@ textarea {
   margin-top: 8px;
 }
 
-/* ── Transition Table ── */
+/* trans table */
 .table-scroll {
   overflow-x: auto;
   max-height: 240px;
@@ -174,7 +171,7 @@ table.trans-table {
 .trans-table .accept-row td:first-child { color: var(--green); font-weight: 700; }
 .trans-table .active-row td { background: rgba(91,143,255,.12) !important; }
 
-/* ── Trace / Result Box ── */
+/* trace box */
 .trace-box {
   background: var(--bg3);
   border: 1px solid var(--border);
@@ -193,7 +190,7 @@ table.trans-table {
 .trace-step .t-sym { color: var(--yellow); font-weight: 600; }
 .trace-step .t-state { color: var(--teal); }
 
-/* ── Result Badge ── */
+/* result badge */
 .result-badge {
   display: inline-flex;
   align-items: center;
@@ -217,7 +214,7 @@ table.trans-table {
   border: 1px solid rgba(255,92,92,.25);
 }
 
-/* ── Stepper / Step info ── */
+/* stepper */
 .stepper-info {
   display: flex;
   align-items: center;
@@ -231,7 +228,7 @@ table.trans-table {
   color: var(--muted);
 }
 
-/* ── Legend ── */
+/* legend */
 .legend {
   display: flex;
   gap: 12px;
@@ -255,7 +252,7 @@ table.trans-table {
 .dot-active  { background: #5b8fff; }
 .dot-dead    { background: #ff5c5c; }
 
-/* ── Sim String Display ── */
+/* sim string ui */
 .sim-string-display {
   font-family: var(--font-mono);
   font-size: 18px;
@@ -276,7 +273,7 @@ table.trans-table {
   text-shadow: 0 0 12px rgba(255,195,91,.5);
 }
 
-/* ── Operator Pills (Regex) ── */
+/* regex pills */
 .op-pills {
   display: flex;
   gap: 6px;
@@ -294,7 +291,7 @@ table.trans-table {
   color: var(--teal);
 }
 
-/* ── Info Rows ── */
+/* info row */
 .info-row {
   display: flex;
   justify-content: space-between;
@@ -306,7 +303,7 @@ table.trans-table {
 .info-key { color: var(--muted); }
 .info-val { font-family: var(--font-mono); color: var(--text); }
 
-/* ── Minimizer stats ── */
+/* min stats */
 .min-stats {
   display: flex;
   gap: 12px;
@@ -338,7 +335,7 @@ table.trans-table {
   line-height: 1;
 }
 
-/* ── Partition Block ── */
+/* partition */
 .partition-block {
   background: var(--bg3);
   border: 1px solid var(--border);
@@ -355,7 +352,7 @@ table.trans-table {
   margin-right: 8px;
 }
 
-/* ── Equivalence result ── */
+/* equiv res */
 .equiv-yes {
   color: var(--green);
   font-weight: 700;
@@ -378,11 +375,11 @@ table.trans-table {
   font-size: 13px;
 }
 
-/* ── Product table extras ── */
+/* prod table */
 .prod-dist td       { color: var(--red) !important; }
 .prod-both-acc td:first-child { color: var(--green); }
 
-/* ── Section sub-labels ── */
+/* section label */
 .section-label {
   font-size: 11px;
   font-weight: 700;
