@@ -1,10 +1,4 @@
 /**
- * js/minimizer.js
- * DFA Minimization — Partition Refinement (Hopcroft's Algorithm)
- * Anggota C
- */
-
-/**
  * Minimize a DFA using partition refinement.
  *
  * @param {DFA} dfa
@@ -30,7 +24,7 @@ function minimizeDFAObj(dfa) {
 
   const history = [partitions.map(p => new Set(p))];
 
-  // ── Iterative refinement ──
+  // Iterative refinement
   let changed = true;
   while (changed) {
     changed = false;
@@ -46,7 +40,7 @@ function minimizeDFAObj(dfa) {
     history.push(partitions.map(p => new Set(p)));
   }
 
-  // ── Build minimized DFA from equivalence classes ──
+  // Build minimized DFA from equivalence classes
   const stateToClass = {};
   const classNames   = new Map();
 
