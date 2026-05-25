@@ -1,10 +1,4 @@
-/**
- * js/table.js
- * Table & Result Renderers — HTML generation helpers
- * Anggota D
- */
-
-// ── Transition Table ────────────────────────────────────────
+// Transition Table
 
 /**
  * Render a DFA transition table into a container element.
@@ -74,7 +68,7 @@ function renderNFATable(containerId, nfa) {
   document.getElementById(containerId).innerHTML = h;
 }
 
-// ── Simulation Trace ────────────────────────────────────────
+// Simulation Trace
 
 /**
  * Render DFA simulation trace as formatted HTML.
@@ -137,7 +131,7 @@ function renderNFATrace(containerId, trace, accepted, inputStr) {
   document.getElementById(containerId).innerHTML = h;
 }
 
-// ── Minimization Result ─────────────────────────────────────
+// Minimization Result
 
 /**
  * Render the minimization result panel.
@@ -182,7 +176,7 @@ function renderMinResult(containerId, info, origDFA, minDFA) {
   document.getElementById(containerId).innerHTML = h;
 }
 
-// ── Equivalence Result ──────────────────────────────────────
+// Equivalence Result
 
 /**
  * Render equivalence check result.
@@ -217,7 +211,7 @@ function renderEquivResult(resultId, tableId, result, alphabet) {
 
   document.getElementById(resultId).innerHTML = h;
 
-  // ── Product table ──
+  // Product table
   const syms = [...alphabet].sort();
 
   let th = `<table class="trans-table product-table"><thead><tr>
@@ -244,7 +238,7 @@ function renderEquivResult(resultId, tableId, result, alphabet) {
   document.getElementById(tableId).innerHTML = th;
 }
 
-// ── Private helpers ─────────────────────────────────────────
+// Private helpers
 
 function _resultBadge(accepted, str) {
   const cls  = accepted ? 'result-accept' : 'result-reject';
