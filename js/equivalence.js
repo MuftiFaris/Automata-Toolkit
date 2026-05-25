@@ -1,10 +1,4 @@
 /**
- * js/equivalence.js
- * DFA Equivalence — Product Construction via BFS
- * Anggota C
- */
-
-/**
  * Check whether two DFAs accept the same language.
  *
  * @param {DFA} dfa1
